@@ -1,0 +1,5 @@
+mail/token.pickle
+mail/credentials.json
+__pycache__/*
+.ipynb_checkpoints/*
+mail/__pycache__/*
