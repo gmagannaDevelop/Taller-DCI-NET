@@ -123,6 +123,30 @@ es_positivo(-np.pi)
 
 #     1. La forma tradicional, no pitónica :
 
+# In[33]:
+
+
+x = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+y = x.copy()
+for i in range(len(x)):
+    y[i] = x[i] ** 2
+
+print(x)
+print(y)
+
+
+# 2. Una forma más pitónica : 
+
+# In[35]:
+
+
+x = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+y = [ valor**2 for valor in x ]
+
+print(x)
+print(y)
+
+
 # In[ ]:
 
 
