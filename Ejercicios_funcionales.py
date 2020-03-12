@@ -64,6 +64,65 @@ lambda x, y, z: x*y*z
 
 # 3. **Asignación**
 
+# In[13]:
+
+
+cuadrado = lambda x: x**2
+
+
+# In[14]:
+
+
+cuadrado(3)
+
+
+# 4. Funciones de orden superior
+
+# In[16]:
+
+
+aplica_función = lambda x, y: x(y)
+
+
+# In[17]:
+
+
+aplica_función(cuadrado, 3)
+
+
+# 5. **Condicionales**
+# 
+# Digamos que quisiésemos saber si un valor es positivo.
+
+# In[19]:
+
+
+es_positivo = lambda x: True if x > 0 else False
+
+
+# In[20]:
+
+
+es_positivo(3)
+
+
+# In[22]:
+
+
+es_positivo(-np.pi)
+
+
+# ## Mapear
+
+# Hay diversas formas de llevar a cabo la misma operación. A continuación las abordaremos, pasando por clásicos hasta la forma funcional.
+# 
+# **Nuestra tarea :** Elevar una lista de números al cuadrado.
+# ```python
+# x = [1, 2, 3, 4, 5, 6, 7, 8]
+# ```
+
+#     1. La forma tradicional, no pitónica :
+
 # In[ ]:
 
 
