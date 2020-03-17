@@ -8,6 +8,8 @@ Grupo de investigación bajo la supervisión del profesor-investigador  [Dr. Lui
 
 Alumno que presenta : [Gustavo Magaña López](https://github.com/gmagannaDevelop)
 
+Con la contribución del Lic. [Edwin Armando Bedolla Montiel](https://github.com/edwinb-ai)
+
 
 ## (OPCIONAL) Requerimientos y dependencias :
 
