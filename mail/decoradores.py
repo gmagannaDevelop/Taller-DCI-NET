@@ -1,5 +1,6 @@
 
 import os
+import logging
 import json
 import datetime
 
@@ -90,12 +91,23 @@ def time_log(path_to_logfile: str = None) -> Callable:
     return timed
 ##
 
-def email_log(asunto: str = None) -> Callable:
-    """
+def log_exception_to_mail(subject: str = None, addressee: str = None) -> Callable:
+    """ 
+        Send a mail to log exceptions.
         
-    """
+        args:
+            none (this decorator uses only keyword arguments)
 
-    asunto = asunto or "Error de ejecución"
+        kwargs:
+            subject : EMAIL_SUBJECT
+            addressee : email address that should recieve the log.
+
+        The decorator will send an email if an exception ocurrs while 
+        executing the decorated function.
+       
+        If sending the email fails, the error will be logged using Python's
+        builtin logging module.
+    """
     
     def timed(f: Callable):
         @wraps(f)
@@ -105,8 +117,8 @@ def email_log(asunto: str = None) -> Callable:
                 return result
             except Exception as e:
                 EMAIL_FROM = 'gml.automat@gmail.com'
-                EMAIL_TO = EMAIL_FROM
-                EMAIL_SUBJECT = asunto
+                EMAIL_TO = addressee or EMAIL_FROM
+                EMAIL_SUBJECT = subject or "Error de ejecución"
                 EMAIL_CONTENT = f"Ocurrió un error al ejecutar la función {f.__name__}\n\n"
                 EMAIL_CONTENT += "Detalles del error :\n" 
                 EMAIL_CONTENT += traceback.format_exc()
@@ -120,10 +132,20 @@ def email_log(asunto: str = None) -> Callable:
                 }
                 EMAIL_CONTENT += "\nInformación adicional en fomato JSON:\n"
                 EMAIL_CONTENT += json.dumps(data)
-                service = login()
-                # Call the Gmail API
-                message = create_message(EMAIL_FROM, EMAIL_TO, EMAIL_SUBJECT, EMAIL_CONTENT)
-                sent = send_message(service,'me', message)
+                try:
+                    service = login()
+                    # Call the Gmail API
+                    message = create_message(EMAIL_FROM, EMAIL_TO, EMAIL_SUBJECT, EMAIL_CONTENT)
+                    sent = send_message(service,'me', message)
+                except:
+                    logging.basicConfig(filename=os.path.join(os.path.abspath("."), "Errors.log"))
+                    logger = logging.getLogger()
+                    log_header = f"datetime UTC: {data['datetimeUTC']}, LOCAL: {data['datetimeLOCAL']}\n"
+                    log_header += f"Impossible sending email `{EMAIL_SUBJECT}` to `{EMAIL_TO}`\n"
+                    log_header += "Error details : \n"
+                    logging.exception(log_header)
+                    with open("Errors.log", "a") as fp:
+                        fp.write(3*"\n")
         ##
         return wrap
     ##
